@@ -7,7 +7,7 @@ import express from "express";
 const router = express.Router()
 
 // Register Api
-router.post("/register", async  (req,res)=>{
+router.post("/register", async  (req,res)=>{h
     const {username,password,firstname,lastname} = req.body
     const user = await userModel.findOne({username})
     if(user){
