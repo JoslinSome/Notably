@@ -13,6 +13,7 @@ import { Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Permissions from "expo-permissions";
 import { Button, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import axios from "axios";
 
 const theme = {
   ...DefaultTheme,
@@ -79,9 +80,12 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
 
   const submitImage = async () => {
     // Make a call to your Node.js server with the selected photo
-    fetch("http://localhost3002/", {
-      method: "POST",
-      body: JSON.stringify({ photo: image }),
+    // Get the photo as a base64 string
+    const base64 = await fetch(image);
+    const blob = await base64.blob();
+    console.log(blob);
+    await axios.post("http://localhost3002/notes/read-note", {
+      body: JSON.stringify({ photo: blob }),
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => response.json())

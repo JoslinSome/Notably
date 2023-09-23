@@ -7,7 +7,7 @@ import SpecialInputComponent from "../components/SpecialInputComponent";
 import ImagePickerComponent from "../components/ImagePickerComponent";
 
 function NotesPage(props) {
-  const { note } = props.route.params;
+  // const { note } = props.route.params;
   const [text, setText] = useState("");
   const [stringsToRender, setStringsToRender] = useState([]);
 

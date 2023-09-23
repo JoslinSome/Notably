@@ -43,5 +43,9 @@ router.delete("/delete", async (req, res) => {
   const note = await noteModel.findByIdAndDelete(id);
   res.send(note);
 });
+router.post("read-note", async (req, res) => {
+    console.log("The request body is: ", req.body);
+    
+})
 
 export { router as NoteRouter };
