@@ -22,34 +22,26 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function Home({route,navigation}) {
-  const {token, user} = route.params
+  const {user} = route.params
 
   return (
-      <Tab.Navigator screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: "rgba(34,36,40,0.45)",
-          position: 'absolute',
-          borderTopWidth: 0,
-        },
-        tabBarActiveTintColor: "rgba(241,240,240,0.79)"
-      })}>
+      <Tab.Navigator>
         <Tab.Screen name="Notes" component={NotesPage}
-                    initialParams={{user, token}}
+                    initialParams={{user}}
                     options={{
                       tabBarIcon: ({ color, size }) => (
                           <Ionicons name="home" color={color} size={size} />
                       ),
                     }}/>
         <Tab.Screen name="Review" component={ReviewPage}
-                    initialParams={{user, token}}
+                    initialParams={{user}}
                     options={{
                       tabBarIcon: ({ color, size }) => (
                           <Ionicons name="search" color={color} size={size} />
                       ),
                     }}/>
         <Tab.Screen name="Account" component={Profile}
-                    initialParams={{user, token}}
+                    initialParams={{user}}
                     options={{
                       tabBarIcon: ({ color, size }) => (
                           <Ionicons name="person-outline" color={color} size={size} />
@@ -67,7 +59,7 @@ export default function App() {
   return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Auth" component={Auth}
+        <Stack.Screen name="Auth" component={Auth}
                         options={{ headerShown: false }}/>
           <Stack.Screen
               name="Home"
@@ -89,6 +81,7 @@ export default function App() {
                 headerShown: false
               }}
           />
+    
           <Stack.Screen name="SignIn" component={SignIn}
                         options={{ headerShown: false }}
           />

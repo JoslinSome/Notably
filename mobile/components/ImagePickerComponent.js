@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Permissions from "expo-permissions";
 import { Button, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import axios from "axios";
+import {api} from "../config/Api"
+
 
 const theme = {
   ...DefaultTheme,
@@ -78,22 +80,31 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
   };
 
   const submitImage = async () => {
-    // Make a call to your Node.js server with the selected photo
-    // Get the photo as a base64 string
-    const base64 = await fetch(image);
-    const blob = await base64.blob();
-    console.log(blob);
-    // Send image to nodejs server
-    const formData = new FormData();
-    formData.append("image", blob);
-    console.log("The form data is: ", formData);
-    await fetch("http://localhost:3002/notes/read-note", {
-      method: "POST",
-      body: formData,
-  }).then((response) => response.json()).catch((error) => {
-    console.error("Error:", error);
-  });
-
+    // Create a new FormData object
+    let formData = new FormData();
+  
+    // Add the image to the form data
+    let name = image.split("/");
+    name = name[name.length - 1];
+    formData.append('image', {
+      uri: image,
+      name: name,
+      type: 'image/jpeg'
+    });
+  
+    // Send the image to your Node.js server
+    axios.post("http://"+api+`/notes/read-note`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => {
+      console.log("Response: ", response);
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+    });
+  
     setModalVisible(false);
   };
 
