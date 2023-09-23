@@ -69,7 +69,6 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
     });
 
     if (!result.cancelled) {
-      console.log(result);
       setImage(result.assets[0].uri);
       setPhoto({ uri: result.assets[0].uri });
       setImageSet(true);
@@ -84,18 +83,16 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
     const base64 = await fetch(image);
     const blob = await base64.blob();
     console.log(blob);
-    await axios.post("http://localhost3002/notes/read-note", {
-      body: JSON.stringify({ photo: blob }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the server response
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // Send image to nodejs server
+    const formData = new FormData();
+    formData.append("image", blob);
+    console.log("The form data is: ", formData);
+    await fetch("http://localhost:3002/notes/read-note", {
+      method: "POST",
+      body: formData,
+  }).then((response) => response.json()).catch((error) => {
+    console.error("Error:", error);
+  });
 
     setModalVisible(false);
   };

@@ -1,5 +1,4 @@
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
-import ImageIcon from "../components/ImageIcon";
 import * as React from "react";
 import {height} from "../config/DeviceDemensions";
 import {useCookies} from "react-cookie";
