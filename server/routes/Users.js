@@ -19,6 +19,7 @@ router.post("/register", async  (req,res)=>{
     await newUser.save().then(r=>{})
     return res.json({message: "User successfully created"})
 })
+
 // Login Api
 router.post("/login", async (req,res) =>{
     const {username, password} = req.body

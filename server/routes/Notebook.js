@@ -37,3 +37,5 @@ router.delete("/delete",async (req,res)=>{
     const notebook = await notebookModel.findByIdAndDelete(id)
     res.send(notebook)
 })
+
+export {router as NotebookRouter}
