@@ -12,17 +12,20 @@ import * as ImagePicker from "expo-image-picker";
 import { Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Permissions from "expo-permissions";
-import { Button, Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import {
+  Button,
+  Provider as PaperProvider,
+  DefaultTheme,
+} from "react-native-paper";
 import axios from "axios";
-import {api} from "../config/Api"
-
+import { api } from "../config/Api";
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'purple',
-    accent: 'black',
+    primary: "purple",
+    accent: "black",
   },
 };
 
@@ -34,9 +37,12 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const getCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    if (status !== 'granted') {
-      alert('Sorry, we need camera roll permissions to make this work!');
+    const { status } = await Permissions.askAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL,
+    );
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
       return false;
     }
     return true;
@@ -82,35 +88,43 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
   const submitImage = async () => {
     // Create a new FormData object
     let formData = new FormData();
-  
+
     // Add the image to the form data
     let name = image.split("/");
     name = name[name.length - 1];
-    formData.append('image', {
+    formData.append("image", {
       uri: image,
       name: name,
-      type: 'image/jpeg'
+      type: "image/jpeg",
     });
-  
+
     // Send the image to your Node.js server
-    axios.post("http://"+api+`/notes/read-note`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then(response => {
-      console.log("Response: ", response);
-    })
-    .catch(error => {
-      console.log("Error: ", error);
-    });
-  
+    axios
+      .post("http://" + api + `/notes/read-note`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("Response: ", response);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+
     setModalVisible(false);
   };
 
   return (
     <PaperProvider theme={theme}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: 'white' }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "white",
+        }}
+      >
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={{ position: "absolute", left: 10, top: 10 }}
@@ -127,7 +141,12 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
           }}
         >
           <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: 'white' }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "white",
+            }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
@@ -136,15 +155,20 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
               <Ionicons name="close-circle" size={32} color="black" />
             </TouchableOpacity>
 
-            <Button mode="contained" style={styles.button} onPress={takePhoto}>Take a photo</Button>
-            <Button mode="contained" style={styles.button} onPress={pickImage}>Pick an image</Button>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={styles.image}
-              />
-            )}
-            <Button mode="contained" style={styles.button} onPress={submitImage}>Submit</Button>
+            <Button mode="contained" style={styles.button} onPress={takePhoto}>
+              Take a photo
+            </Button>
+            <Button mode="contained" style={styles.button} onPress={pickImage}>
+              Pick an image
+            </Button>
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+            <Button
+              mode="contained"
+              style={styles.button}
+              onPress={submitImage}
+            >
+              Submit
+            </Button>
           </View>
         </Modal>
       </View>
@@ -159,22 +183,21 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
   },
-  button : {
-    backgroundColor: 'purple',
+  button: {
+    backgroundColor: "purple",
     marginTop: 10,
-    color: 'white',
+    color: "white",
     width: 150,
     height: 40,
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  image : {
+  image: {
     width: windowWidth * 0.9,
     height: windowHeight * 0.3,
     margin: 20,
     borderRadius: 10,
     borderWidth: 1,
-  }
-
+  },
 });
