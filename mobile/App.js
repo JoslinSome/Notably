@@ -94,7 +94,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
   );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#575252',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   row: {
     flexDirection: "row",
