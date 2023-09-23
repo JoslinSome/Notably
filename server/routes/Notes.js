@@ -37,11 +37,18 @@ router.get("/get-all", async (req, res) => {
   const notes = await noteModel.find({});
   res.send(notes);
 });
-router.get("/get-by-id", async (req, res) => {
-  const { id } = req.body;
-  const note = await noteModel.findById(id);
-  res.send(note);
+
+router.get("/get-by-notebook/:notebookId", async (req, res) => {
+    const { notebookId } = req.params;
+    const notes = await noteModel.find({ notebook: notebookId });
+    res.send(notes);
 });
+
+// router.get("/get-by-user/:userId", async (req, res) => {
+//     const { userId } = req.params;
+//     const notebooks = await notebookModel.find({ user: userId });
+//     res.send(notebooks);
+//   });
 
 router.delete("/delete", async (req, res) => {
   const { id } = req.body;
