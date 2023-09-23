@@ -38,23 +38,6 @@
   cursor: pointer;
 }
 
-.login-button-top {
-  height: 100%;
-  font-size: 18px;
-  background-color: var(--button-login-bg);
-  color: var(--button-login-color);
-  padding: 0 15px; /* Adjusting padding */
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.login-button-top:hover {
-  background-color: var(--button-login-hover-bg);
-  color: var(--button-login-hover-color);
-  transform: scale(1.1);
-}
-
 .content {
   display: flex;
   height: 100vh;
@@ -73,7 +56,7 @@
 
 .right-content {
   flex: 1;
-  background-color: #191d2d;
+  background-color: rgb(114,13,227);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,5 +96,84 @@
 
 /* Hover effect */
 .get-started-button:hover, .login-button:hover {
+  transform: scale(1.05);
+}
+
+.login-input {
+  width: var(--button-width);
+  padding: 10px;
+  border-radius: var(--button-radius);
+  margin: 10px 0;
+  border: 1px solid #d7d7d7;
+}
+
+.login-submit-button {
+  background-color: var(--button-login-bg);
+  color: var(--button-login-color);
+  font-size: var(--button-font-size);
+  padding: var(--button-padding);
+  width: var(--button-width);
+  border-radius: var(--button-radius);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.login-submit-button:hover {
+  background-color: var(--button-login-hover-bg);
+  color: var(--button-login-hover-color);
+  transform: scale(1.05);
+}
+
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.sign-up-form input {
+  width: var(--button-width);
+  padding: 10px;
+  border: 1px solid #d7d7d7;
+  border-radius: var(--button-radius);
+}
+
+.sign-up-button {
+  /* You can style the sign-up button similar to other buttons */
+  background-color: var(--button-login-bg);
+  color: var(--button-login-color);
+  font-size: var(--button-font-size);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  transition: 0.3s;
+  width: var(--button-width);
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+.message {
+  color: green;
+  font-size: 14px;
+}
+
+.
+
+.create-notebook-button {
+  background-color: var(--button-get-started-bg);
+  color: var(--button-get-started-color);
+  font-size: var(--button-font-size);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.create-notebook-button:hover {
+  background-color: var(--button-get-started-hover-bg);
+  color: var(--button-get-started-hover-color);
   transform: scale(1.05);
 }
