@@ -1,6 +1,11 @@
 import { noteModel } from "../models/Notes.js";
 import express from "express";
 import { compareSync } from "bcrypt";
+import fs from "fs";
+import path from "path";
+import jpeg from "jpeg-js";
+import multer from 'multer';
+
 
 const router = express.Router();
 
@@ -43,10 +48,23 @@ router.delete("/delete", async (req, res) => {
   const note = await noteModel.findByIdAndDelete(id);
   res.send(note);
 });
-router.post("/read-note", async (req, res) => {
-    console.log("The request body is: ", req.body);
-    res.send("Success");
-    
-})
+
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Appending extension
+  }
+});
+
+const upload = multer({ storage: storage });
+
+router.post("/read-note", upload.single('image'), async (req, res) => {
+  console.log("The file is: ", req.file);
+
+  // The image file is saved in the 'uploads/' directory
+  // You can move it to another directory or do whatever you want with it
+
+  res.send("Success");
+});
 
 export { router as NoteRouter };

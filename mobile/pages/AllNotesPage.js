@@ -17,11 +17,18 @@ function AllNotesPage() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    // Fetch notes from your Node.js server
-    fetch('http://localhost:3002/notes/get-all')
-      .then(response => response.json())
-      .then(data => setNotes(data))
-      .catch(error => console.error('Error:', error));
+    // Get all the notes from the server
+    axios.post("http://"+api+`/notes/read-note`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(response => {
+      console.log("Response: ", response);
+    })
+    .catch(error => {
+      console.log("Error: ", error);
+    });
   }, []);
 
   const renderItem = ({ item }) => (
