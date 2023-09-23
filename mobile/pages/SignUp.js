@@ -29,7 +29,7 @@ export default function SignUp({navigation}){
             return
         }
 
-        const response = await axios.post("http://"+api+`/auth/register`, {
+        const response = await axios.post("http://"+api+`/user/register`, {
             firstname: firstName,
             lastname: lastName,
             username: userName,

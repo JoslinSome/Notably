@@ -13,6 +13,9 @@ import {api} from "./config/Api";
 import Auth from "./pages/Auth";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import AllNotesPage from './pages/AllNotesPage';
+import Profile from "./pages/Profile";
+import NotesPage from './pages/NotesPage';
 
 
 const Tab = createBottomTabNavigator();
@@ -31,7 +34,7 @@ function Home({route,navigation}) {
         },
         tabBarActiveTintColor: "rgba(241,240,240,0.79)"
       })}>
-        <Tab.Screen name="HomePage" component={HomePage}
+        <Tab.Screen name="Notes" component={NotesPage}
                     initialParams={{user, token}}
                     options={{
                       tabBarIcon: ({ color, size }) => (
@@ -94,6 +97,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
   );
+}
 
 const styles = StyleSheet.create({
   container: {

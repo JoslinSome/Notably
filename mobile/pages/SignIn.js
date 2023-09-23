@@ -6,6 +6,8 @@ import LongBtn from "../components/LongBtn";
 import {useState} from "react";
 import{useCookies} from "react-cookie"
 import axios from "axios";
+import {api} from "../config/Api"
+
 export default function SignIn({navigation}){
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
@@ -13,7 +15,7 @@ export default function SignIn({navigation}){
     const [cookies,setCookie] = useCookies(["access-token","username"])
     console.log(cookies)
     async function signIn(){
-         await axios.post("http://"+api+`/auth/login`, {
+         await axios.post("http://"+api+`/user/login`, {
             username: userName,
             password
         })
@@ -27,7 +29,7 @@ export default function SignIn({navigation}){
                     console.log(r.data,"jkhjkh")
                     //window.localStorage.setItem("userId",r.data.userId)
                     navigation.popToTop();
-                    navigation.replace('SpotifyAuth',{user: r.data.user})
+                    navigation.replace('Home',{user: r.data.user})
                 }
 
             })
