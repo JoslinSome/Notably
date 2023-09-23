@@ -5,20 +5,24 @@ import fs from "fs";
 import path from "path";
 import jpeg from "jpeg-js";
 import multer from 'multer';
-
+import { notebookModel } from "../models/Notebooks.js";
 
 const router = express.Router();
 
 router.post("/create", async (req, res) => {
-  const { title, content } = req.body;
+  const { notebookId } = req.body;
   const date = new Date();
   const note = new noteModel({
-    title,
-    content,
+    title: "New Note",
+    content: "New Note",
     created: date,
     modified: date,
+    notebook: notebookId,
   });
+  const notebook = await notebookModel.findById(notebookId);
   await note.save();
+  notebook.notes.push(note._id);
+  await notebook.save()
   res.send(note);
 });
 
@@ -39,7 +43,7 @@ router.get("/get-all", async (req, res) => {
 });
 
 router.get("/get-by-notebook/:notebookId", async (req, res) => {
-    const { notebookId } = req.params;
+   const { notebookId } = req.params;
     const notes = await noteModel.find({ notebook: notebookId });
     res.send(notes);
 });

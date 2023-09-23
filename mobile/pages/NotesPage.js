@@ -8,6 +8,7 @@ import ImagePickerComponent from "../components/ImagePickerComponent";
 
 function NotesPage({route}) {
   const { note } = route.params;
+  console.log("NOOOOTE",note)
   const [text, setText] = useState("");
   const [stringsToRender, setStringsToRender] = useState([]);
 
