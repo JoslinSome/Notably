@@ -177,3 +177,55 @@
   color: var(--button-get-started-hover-color);
   transform: scale(1.05);
 }
+
+.create-notebook-button {
+  font-size: var(--button-font-size);
+  width: var(--button-width);
+  padding: var(--button-padding);
+  background-color: var(--button-login-bg);
+  color: var(--button-login-color);
+  border-radius: var(--button-radius);
+  border: none;
+  cursor: pointer;
+  margin-top: 50px;
+  transition: all 0.3s ease;
+}
+
+.create-notebook-button:hover {
+  background-color: var(--button-login-hover-bg);
+  color: var(--button-login-hover-color);
+  transform: scale(1.05);
+}
+
+.notebook-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.notebook-form input, .notebook-form textarea {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #d7d7d7;
+}
+
+.notebook-form button {
+  font-size: var(--button-font-size);
+  width: var(--button-width);
+  padding: var(--button-padding);
+  background-color: var(--button-get-started-bg);
+  color: var(--button-get-started-color);
+  border-radius: var(--button-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.notebook-form button:hover {
+  background-color: var(--button-get-started-hover-bg);
+  color: var(--button-get-started-hover-color);
+  transform: scale(1.05);
+}
