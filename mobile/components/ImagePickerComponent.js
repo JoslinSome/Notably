@@ -31,7 +31,7 @@ const theme = {
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function ImagePickerComponent({ setImageSet, setPhoto,parse }) {
+export default function ImagePickerComponent({ setImageSet, setPhoto,parse,save }) {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -175,12 +175,17 @@ export default function ImagePickerComponent({ setImageSet, setPhoto,parse }) {
   }
   else{
     return (
+      <View style={styles.row}>
         <TouchableOpacity
             onPress={() => setModalVisible(true)}
             style={{ position: "absolute", left: 10, top: 10 }}
         >
           <Ionicons name="add-circle" size={32} color="black" />
         </TouchableOpacity>
+        <TouchableOpacity style={styles.save} onPress={()=>save()}>
+          <Text>Save</Text>
+        </TouchableOpacity>
+      </View>
     )
   }
 }
@@ -202,6 +207,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  save:{
+    backgroundColor: "#c5a7a7",
+    marginTop: 15,
+    marginLeft: 45
+  },
   image: {
     width: windowWidth * 0.9,
     height: windowHeight * 0.3,
@@ -209,4 +219,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
   },
+  row: {
+    flexDirection: "row"
+  }
 });
