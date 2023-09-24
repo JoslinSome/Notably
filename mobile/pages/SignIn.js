@@ -14,7 +14,6 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { api } from "../config/Api";
-
 export default function SignIn({ navigation }) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +21,7 @@ export default function SignIn({ navigation }) {
   const [cookies, setCookie] = useCookies(["access-token", "username"]);
   console.log(cookies);
   async function signIn() {
+
     await axios
       .post("http://" + api + `/user/login`, {
         username: userName,

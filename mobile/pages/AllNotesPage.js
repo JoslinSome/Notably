@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { FlatList, TouchableOpacity } from "react-native";
+import {FlatList, TextInput, TouchableOpacity, View} from "react-native";
 import {
   Card,
   Title,
@@ -9,6 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { api } from "../config/Api";
+import SpecialInputComponent from "../components/SpecialInputComponent";
 
 const theme = {
   ...DefaultTheme,
@@ -22,8 +23,10 @@ const theme = {
 function AllNotesPage({route}) {
   const { user, notebook } = route.params;
   const [notes, setNotes] = useState([]);
+    const [notesToDisplay, setNotesToDisplay] = useState([])
   const navigation = useNavigation();
     const once = useRef(true);
+    const [text, setText] = useState()
     useEffect(() => {
     // Get all the notes from the server
     axios
@@ -64,7 +67,7 @@ function AllNotesPage({route}) {
   }
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate("NotesPage", { note: item })}
+      onPress={() => navigation.navigate("NotesPage", { note: item, highlited: text })}
     >
       <Card style={{ margin: 10 }}>
         <Card.Content>
@@ -73,11 +76,21 @@ function AllNotesPage({route}) {
       </Card>
     </TouchableOpacity>
   );
-
+  function filter(text){
+      setText(text)
+      setNotesToDisplay(notes.filter(element => element.content.includes(text)));
+      console.log(notesToDisplay)
+  }
   return (
     <PaperProvider>
+        <TextInput
+            placeholder={"Enter search text"}
+            onChangeText={
+                 (text) => filter(text)
+            }
+        />
       <FlatList
-        data={notes}
+        data={notesToDisplay.length>0? notesToDisplay: notes}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={3}

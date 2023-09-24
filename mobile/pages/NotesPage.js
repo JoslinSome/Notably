@@ -10,13 +10,12 @@ import {api} from "../config/Api";
 import TableComponent from "../components/TableComponent";
 
 function NotesPage({route}) {
-  const { note } = route.params;
+  const { note, highlited } = route.params;
   const [stringsToRender, setStringsToRender] = useState([]);
   const [title, setTitle] = useState("");
   const [imageSet, setImageSet] = useState(false);
   const [photo, setPhoto] = useState(null);
   const once = useRef(true);
-
   // Save all notes in string to render to database
 
   function parseNote(text) {
@@ -104,7 +103,9 @@ function NotesPage({route}) {
         .get(`http://${api}/notes/get-by-id`,{params: {id: note._id}})
         .then(r => {
           console.log("Successfully joined")
-          setTitle(r.data.title)
+          if(r.data.title.length>0){
+            setTitle("HELLO")
+          }
           parseNote(
               r.data.content
           )
@@ -122,10 +123,10 @@ function NotesPage({route}) {
         params: {
           content: stringsToRender,
           id: note._id,
-          title
+          title: title
         }
       }).then(r => {
-        console.log("Successfully joined")
+        console.log("Successfully Saved")
       }).catch(e => console.log(e))
     }
   }
@@ -135,6 +136,7 @@ function NotesPage({route}) {
         <ImagePickerComponent save={save} parse={parseNote} setImageSet={setImageSet} setPhoto={setPhoto} />
 
       <View style={styles.note}>
+        <TextInput style={styles.title} placeholder={"Title"} onChangeText={(text)=>setTitle(title)}/>
         {/* <DialogComponent text={text} setText={setText} parse={parseNote} /> */}{/*// <TextInput style={styles.mainNote} multiline={true} numberOfLines={4} fontSize={16}>*/}
         {
           //   console.log(stringsToRender)
@@ -145,7 +147,18 @@ function NotesPage({route}) {
               }
               else if (string[0] === "[") {
                 return <SpecialInputComponent key={index} text={string} />;
-              } else {
+              }
+              // else if(string.includes(highlited)){
+              //   let temp = string.split(highlited)
+              //   return (
+              //       <View>
+              //         <Text style={styles.highlighted}>{temp[0]}</Text>
+              //         <Text style={styles.highlighted}>{temp[1]}</Text>
+              //         <Text style={styles.highlighted}>{temp[2]}</Text>
+              //       </View>
+              //     )
+              // }
+              else {
                 return (
                   <TextInput
                     key={index}
@@ -167,7 +180,11 @@ function NotesPage({route}) {
 
 const styles = StyleSheet.create({
   container: {},
-
+  highlighted: {
+    backgroundColor: "yellow",
+    fontWeight: 'bold',
+    fontSize: 15
+  },
   note: {
     marginTop: "7%",
     marginLeft: "2.5%",
@@ -182,6 +199,8 @@ const styles = StyleSheet.create({
   },
   title: {
     underline: { textDecorationLine: "underline" },
+    fontSize: 30,
+    fontWeight: "bold"
   },
   navbar: {
     flexDirection: "row",
