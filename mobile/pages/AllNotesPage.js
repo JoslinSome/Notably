@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
-import {FlatList, Image, View, Text, TouchableOpacity} from "react-native";
+import {FlatList, Image, TextInput, Text, TouchableOpacity, View} from "react-native";
+
 import {
   Card,
   Title,
@@ -9,6 +10,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { api } from "../config/Api";
+import SpecialInputComponent from "../components/SpecialInputComponent";
+
 import noteImage from "../assets/note.png";
 
 const theme = {
@@ -23,8 +26,10 @@ const theme = {
 function AllNotesPage({route}) {
   const { user, notebook } = route.params;
   const [notes, setNotes] = useState([]);
+    const [notesToDisplay, setNotesToDisplay] = useState([])
   const navigation = useNavigation();
     const once = useRef(true);
+    const [text, setText] = useState()
     useEffect(() => {
     // Get all the notes from the server
     axios
@@ -64,6 +69,7 @@ function AllNotesPage({route}) {
         }).catch(e=>console.log("Error creating note"))
   }
   const renderItem = ({ item }) => (
+
       <TouchableOpacity
           onPress={() => navigation.navigate("NotesPage", { note: item })}
           style={{ alignItems: 'center', margin: 15 }} // Align children centrally and apply margin
@@ -76,12 +82,23 @@ function AllNotesPage({route}) {
               <Text style={{ textAlign: 'center', width: 100 }}>{String(item.title)}</Text>
           </View>
       </TouchableOpacity>
-  );
 
+                                                                 );
+  function filter(text){
+      setText(text)
+      setNotesToDisplay(notes.filter(element => element.content.includes(text)));
+      console.log(notesToDisplay)
+  }
   return (
     <PaperProvider>
+        <TextInput
+            placeholder={"Enter search text"}
+            onChangeText={
+                 (text) => filter(text)
+            }
+        />
       <FlatList
-        data={notes}
+        data={notesToDisplay.length>0? notesToDisplay: notes}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={3}
