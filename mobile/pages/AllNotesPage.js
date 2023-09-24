@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { FlatList, TouchableOpacity } from "react-native";
+import {FlatList, Image, View, Text, TouchableOpacity} from "react-native";
 import {
   Card,
   Title,
@@ -9,6 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { api } from "../config/Api";
+import noteImage from "../assets/note.png";
 
 const theme = {
   ...DefaultTheme,
@@ -51,7 +52,7 @@ function AllNotesPage({route}) {
           }
       })
       .catch((error) => {
-        console.log("Erroer: ", error);
+        console.log("Error: ", error);
       });
   }, []);
 
@@ -63,15 +64,18 @@ function AllNotesPage({route}) {
         }).catch(e=>console.log("Error creating note"))
   }
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("NotesPage", { note: item })}
-    >
-      <Card style={{ margin: 10 }}>
-        <Card.Content>
-          <Title>{item.title}</Title>
-        </Card.Content>
-      </Card>
-    </TouchableOpacity>
+      <TouchableOpacity
+          onPress={() => navigation.navigate("NotesPage", { note: item })}
+          style={{ alignItems: 'center', margin: 15 }} // Align children centrally and apply margin
+      >
+          <View>
+              <Image
+                  style={{ width: 100, height: 100, opacity: 0.8, borderRadius: 10 }}
+                  source={noteImage}
+              />
+              <Text style={{ textAlign: 'center', width: 100 }}>{String(item.title)}</Text>
+          </View>
+      </TouchableOpacity>
   );
 
   return (
