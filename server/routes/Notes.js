@@ -28,12 +28,13 @@ router.post("/create", async (req, res) => {
 });
 
 router.put("/update", async (req, res) => {
-  const { id, title, content } = req.body;
+  const { id, title, content } =req.body.params;
   const date = new Date();
   let string =""
   for (let i = 0; i < content.length; i++) {
     string+=content[i]
   }
+  console.log(string,"ssdf")
   const note = await noteModel.findByIdAndUpdate(id, {
     title,
     content: string,
@@ -62,6 +63,12 @@ router.get("/get-by-notebook/:notebookId", async (req, res) => {
 router.delete("/delete", async (req, res) => {
   const { id } = req.body;
   const note = await noteModel.findByIdAndDelete(id);
+  res.send(note);
+});
+
+router.get("/get-by-id", async (req, res) => {
+  const { id } = req.query;
+  const note = await noteModel.findById(id);
   res.send(note);
 });
 
