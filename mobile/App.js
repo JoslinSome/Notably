@@ -60,7 +60,6 @@ function Home({ route, navigation }) {
     </Tab.Navigator>
   );
 }
-
 // Stack for the notes, and notebooks
 const NotesStack = createStackNavigator();
 function NotesStackScreen({ route, navigation }) {

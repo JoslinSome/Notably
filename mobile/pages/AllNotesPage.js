@@ -70,18 +70,16 @@ function AllNotesPage({route}) {
         }).catch(e=>console.log("Error creating note"))
   }
   const renderItem = ({ item }) => (
-
+    <View style={styles.note_container}>
       <TouchableOpacity
-          style={styles.notes_card}
-          onPress={() => navigation.navigate("NotesPage", { note: item })}
+        style={styles.note_card}
+        onPress={() => navigation.navigate("NotesPage", { note: item })}
       >
-          <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ noteImage}/>
-          <View style={styles.notes_card_content}>
-              <Text style={styles.notes_card_title}>{item.title}</Text>
-          </View>
+        <Image style={styles.note_image} source={noteImage} />
       </TouchableOpacity>
-
-                                                                 );
+      <Text style={styles.note_card_title}>{item.title}</Text>
+    </View>
+  );
   function filter(text){
       setText(text)
       setNotesToDisplay(notes.filter(element => element.content.includes(text)));
@@ -90,11 +88,10 @@ function AllNotesPage({route}) {
   return (
     <PaperProvider>
         <TextInput
-            placeholder={"Enter search text"}
-            onChangeText={
-                 (text) => filter(text)
-            }
-        />
+  placeholder="Enter search text"
+  onChangeText={(text) => filter(text)}
+  style={styles.input}
+/>
       <FlatList
         data={notesToDisplay.length>0? notesToDisplay: notes}
         renderItem={renderItem}
@@ -117,52 +114,43 @@ function AllNotesPage({route}) {
 }
 
 const styles = StyleSheet.create({
-    notes_title: {
-        fontSize: 60,
-        fontWeight: "bold",
-        color: "#ffffff",
-        marginLeft: 100,
-    },
-    notes_description: {
-        fontSize: 15,
-        textAlign: "center",
-        color: "#ffffff",
-    },
-    notes_card: {
-        margin: 20,
-        borderRadius: 10,
-        // Make the card look elevated and have a shadow
-        elevation: 5,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.5,
-        width: 170,
-        height: 170,
-        // Make background color white
-        backgroundColor: "#ffffff",
-
-    },
-    notes_card_title: {
-        color: "black",
-        fontSize: 20,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    notes_card_description: {
-        color: "#ffffff",
-        fontSize: 15,
-    },
-    notes_card_date: {
-        color: "#ffffff",
-        fontSize: 10,
-    },
-    notes_card_icon: {
-        color: "#ffffff",
-    },
-    notes_card_content: {
-        justifyContent: "center",
-        margin: 5,
-    },
+  note_container: {
+    alignItems: 'center',
+    margin: 10,
+  },
+  note_card: {
+    width: width / 7.5,
+    height: width / 7.6,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+  },
+  note_image: {
+    width: '85%',
+    height: '85%',
+    resizeMode: 'contain',
+    marginLeft: '10%',
+    marginTop: '7.5%',
+  },
+  note_card_title: {
+    color: "black",
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    borderColor: 'gray',
+  },
 });
 
 

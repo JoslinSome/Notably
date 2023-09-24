@@ -5,6 +5,9 @@ import {useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import {api} from "../config/Api";
 import flashcardImage from "../assets/flashcard.png";
+import {width, height} from "../config/DeviceDemensions";
+
+
 function ReviewPage({props,route}) {
     const { user } = route.params;
     console.log("User: ", user);
@@ -30,21 +33,26 @@ function ReviewPage({props,route}) {
 
 
     const renderItem = ({ item }) => (
+      <View style={styles.cardContainer}>
         <TouchableOpacity
-            onPress={() => navigation.navigate("Quiz", {user, notebook: item})}>
-            <Image style={{width: 110, height: 110, opacity: 0.8, margin: 25, borderRadius:10}} source={ flashcardImage}/>
-            <Text>{item.title}</Text>
+          style={styles.card}
+          onPress={() => navigation.navigate("Quiz", {user, notebook: item})}
+        >
+          <Image style={styles.cardImage} source={flashcardImage} />
+          <Text style={styles.cardTitle}>{item.title}</Text>
         </TouchableOpacity>
+      </View>
     );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.Title}>Select Course to review</Text>
-      <PaperProvider >
+      <Text style={styles.title}>Select Course to review</Text>
+      <PaperProvider>
         <FlatList
-            data={noteBooks}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
+          data={noteBooks}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
         />
         <Modal
             animationType="slide"
@@ -81,14 +89,52 @@ function ReviewPage({props,route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgb(212,195,232)",
   },
     Title: {
         fontSize: 20,
       fontWeight: "bold",
-      color: "rgb(87,9,180)",
+      color: "white",
       marginTop: 35,
       marginLeft: 10
-    }
+    },
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: "purple",
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: "white",
+      marginBottom: 20,
+      textAlign: 'center',
+    },
+    cardContainer: {
+      flex: 1,
+      flexDirection: 'column',
+      margin: 1,
+    },
+    card: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: height/3.5,
+      width: width/6,
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      margin: 10,
+      elevation: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+    },
+    cardImage: {
+      width: '100%',
+      height: '70%',
+      resizeMode: 'contain',
+    },
+    cardTitle: {
+      marginTop: 10,
+      fontSize: 16,
+    },
 });
 export default ReviewPage;
