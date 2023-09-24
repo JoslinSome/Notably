@@ -63,9 +63,12 @@ function AllNoteBooksPage({ route }) {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
+        style={styles.notes_card}
       onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}>
         <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ notebookImage}/>
-        <Text stye={styles.notes_title}>{item.title}</Text>
+        <View style={styles.notes_card_content}>
+            <Text style={styles.notes_card_title}>{item.title}</Text>
+        </View>
     </TouchableOpacity>
   );
 
@@ -100,7 +103,7 @@ function AllNoteBooksPage({ route }) {
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
           <View
-            style={{ backgroundColor: "white", padding: 20, borderRadius: 10 }}
+            style={{ backgroundColor: "#ffffff", padding: 20, borderRadius: 10 }}
           >
             <TextInput
               placeholder="Title"
@@ -122,10 +125,10 @@ function AllNoteBooksPage({ route }) {
 }
 const styles = StyleSheet.create({
     notes_title: {
-        fontSize: 30,
+        fontSize: 60,
         fontWeight: "bold",
-        textAlign: "center",
         color: "#ffffff",
+        marginLeft: 100,
     },
     notes_description: {
         fontSize: 15,
@@ -133,14 +136,24 @@ const styles = StyleSheet.create({
         color: "#ffffff",
     },
     notes_card: {
-        backgroundColor: "#575252",
-        margin: 10,
+        margin: 20,
         borderRadius: 10,
+        // Make the card look elevated and have a shadow
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        width: 170,
+        height: 170,
+        // Make background color white
+        backgroundColor: "#ffffff",
+        
     },
     notes_card_title: {
-        color: "#ffffff",
+        color: "black",
         fontSize: 20,
         fontWeight: "bold",
+        textAlign: "center",
     },
     notes_card_description: {
         color: "#ffffff",
@@ -154,7 +167,8 @@ const styles = StyleSheet.create({
         color: "#ffffff",
     },
     notes_card_content: {
-        padding: 10,
+        justifyContent: "center",
+        margin: 5,
     },
 });
 
