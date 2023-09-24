@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import {api} from "../config/Api";
 import notebookImage from "../assets/notebook.png"
+import { width, height } from '../config/DeviceDemensions';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -13,6 +14,7 @@ const theme = {
     accent: "black",
   },
 };
+
 
 function AllNoteBooksPage({ route }) {
   console.log("AllNoteBooksPage");
@@ -62,14 +64,15 @@ function AllNoteBooksPage({ route }) {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-        style={styles.notes_card}
-      onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}>
-        <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ notebookImage}/>
-        <View style={styles.notes_card_content}>
-            <Text style={styles.notes_card_title}>{item.title}</Text>
-        </View>
-    </TouchableOpacity>
+    <View style={styles.notebook_container}>
+      <TouchableOpacity
+        style={styles.notebook_card}
+        onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}
+      >
+        <Image style={styles.notebook_image} source={notebookImage} />
+      </TouchableOpacity>
+      <Text style={styles.notebook_card_title}>{item.title}</Text>
+    </View>
   );
 
   return (
@@ -124,49 +127,40 @@ function AllNoteBooksPage({ route }) {
   );
 }
 const styles = StyleSheet.create({
-    notes_title: {
-        fontSize: 60,
-        fontWeight: "bold",
-        color: "#ffffff",
-        marginLeft: 100,
-    },
-    notes_description: {
-        fontSize: 15,
-        textAlign: "center",
-        color: "#ffffff",
-    },
-    notes_card: {
-        margin: 20,
+    notebook_container: {
+        alignItems: 'center',
+        marginTop: 20,
+      },
+    notebook_card: {
+        marginTop: 10,
+        marginLeft: 20,
+        marginRight: 20,
         borderRadius: 10,
         // Make the card look elevated and have a shadow
         elevation: 5,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
-        width: 170,
-        height: 170,
+        width: width/5.5,
+        height: width/5.5,
+        justifyContent: "center",
         // Make background color white
         backgroundColor: "#ffffff",
         
     },
-    notes_card_title: {
+    notebook_image: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
+      },
+    notebook_card_title: {
         color: "black",
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
-    },
-    notes_card_description: {
-        color: "#ffffff",
-        fontSize: 15,
-    },
-    notes_card_date: {
-        color: "#ffffff",
-        fontSize: 10,
-    },
-    notes_card_icon: {
-        color: "#ffffff",
-    },
-    notes_card_content: {
+        marginTop: 10,
+      },
+    notebook_card_content: {
         justifyContent: "center",
         margin: 5,
     },
