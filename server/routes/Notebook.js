@@ -1,6 +1,6 @@
 import express from "express";
 import { notebookModel } from "../models/Notebooks.js";
-
+import { userModel } from "../models/Users.js";
 const router = express.Router();
 
 router.post("/create", async (req, res) => {
@@ -13,6 +13,9 @@ router.post("/create", async (req, res) => {
     modified: date,
     user
   });
+  const User = await userModel.findById(user._id);
+  User.notebooks.push(notebook._id);
+  await User.save();
   await notebook.save();
   res.send(notebook);
 });

@@ -101,7 +101,7 @@ function NotesStackScreen({ route, navigation }) {
         component={NotesPage}
         initialParams={{ user }}
         options={{
-          headerTitle: "Notes",
+            headerShown: false,
           headerStyle: {
             backgroundColor: headerColor,
           },

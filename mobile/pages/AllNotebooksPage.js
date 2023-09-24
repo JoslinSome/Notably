@@ -53,17 +53,17 @@ function AllNoteBooksPage({ route }) {
         setTitle("");
         setDescription("");
         setModalVisible(false);
+      navigation.navigate("AllNotes", { user, notebook: response.data });
       })
       .catch((error) => {
         console.log("Error: ", error);
       });
 
-    navigation.navigate("AllNotesPage", { user, notebook: notebook });
   };
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate("AllNotes", { note: item })}
+      onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}
     >
       <Card style={{ margin: 10 }}>
         <Card.Content>
@@ -79,7 +79,7 @@ function AllNoteBooksPage({ route }) {
         data={noteBooks}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        numColumns={3}
+        numColumns={2}
       />
       <FAB
         style={{

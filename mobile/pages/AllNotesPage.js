@@ -4,7 +4,7 @@ import {
   Card,
   Title,
   Provider as PaperProvider,
-  DefaultTheme,
+  DefaultTheme, FAB,
 } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -29,19 +29,25 @@ function AllNotesPage({route}) {
   useEffect(() => {
     // Get all the notes from the server
     axios
-      .post("http://" + api + `/notes/get-by-notebook/${notebook._id}`, formData, {
+      .get("http://" + api + `/notes/get-by-notebook/${notebook._id}`,{}, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
-        console.log("Response: ", response);
+        setNotes(response.data);
       })
       .catch((error) => {
-        console.log("Error: ", error);
+        console.log("Erroer: ", error);
       });
   }, []);
-
+  async function createNewNote() {
+    const response = await axios
+        .post("http://" + api + `/notes/create`,{notebookId: notebook._id} )
+        .then((r) => {
+            navigation.navigate("NotesPage", {note: r.data});
+        }).catch(e=>console.log("Error creating note"))
+  }
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => navigation.navigate("NotesPage", { note: item })}
@@ -55,12 +61,23 @@ function AllNotesPage({route}) {
   );
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider>
       <FlatList
         data={notes}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={3}
+      />
+      <FAB
+          style={{
+            position: "absolute",
+            margin: 16,
+            right: 0,
+            bottom: 0,
+          }}
+          small
+          icon="plus"
+          onPress={() => createNewNote()}
       />
     </PaperProvider>
   );
