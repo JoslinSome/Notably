@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import {
   Card,
@@ -21,12 +21,10 @@ const theme = {
 
 function AllNotesPage({route}) {
   const { user, notebook } = route.params;
-  console.log("User: ", user);
-  console.log("Notebook: ", notebook);
   const [notes, setNotes] = useState([]);
   const navigation = useNavigation();
-
-  useEffect(() => {
+    const once = useRef(true);
+    useEffect(() => {
     // Get all the notes from the server
     axios
       .get("http://" + api + `/notes/get-by-notebook/${notebook._id}`,{}, {
@@ -36,11 +34,27 @@ function AllNotesPage({route}) {
       })
       .then((response) => {
         setNotes(response.data);
+          if(once.current){
+              console.log("ONCE")
+              let string =""
+              for(let i=0; i<response.data.length; i++){
+                  string+=response.data[i].content
+              }
+              console.log("HERE",string,notes.length)
+              axios
+                  .get("http://" + api + `/notes/get-flash-cards`,{params: {text: string}}, {
+                      headers: {
+                          "Content-Type": "multipart/form-data",
+                      },
+                  }).then(r=>console.log(r.data)).catch(e=>console.log("Error getting flashcards"))
+              once.current= false
+          }
       })
       .catch((error) => {
         console.log("Erroer: ", error);
       });
   }, []);
+
   async function createNewNote() {
     const response = await axios
         .post("http://" + api + `/notes/create`,{notebookId: notebook._id} )

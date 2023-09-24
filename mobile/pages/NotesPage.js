@@ -7,6 +7,7 @@ import SpecialInputComponent from "../components/SpecialInputComponent";
 import ImagePickerComponent from "../components/ImagePickerComponent";
 import axios from "axios";
 import {api} from "../config/Api";
+import TableComponent from "../components/TableComponent";
 
 function NotesPage({route}) {
   const { note } = route.params;
@@ -22,9 +23,33 @@ function NotesPage({route}) {
     console.log("HERE PARSING")
     let strings = text.split("\n");
     let currentString = "";
+    let rowLen = 0;
+    let colLen=0;
     let newStrings = [];
+    console.log(strings)
+    let count = 0
     strings.forEach((string) => {
-      if (string[0] === "[") {
+      if(string.includes("Table")){
+        if(currentString.length>0){
+            newStrings.push(currentString)
+        }
+        currentString ="T*"
+        colLen = string[string.length-1]
+        rowLen = string[string.length-3]
+      }
+      else if(rowLen !== 0 || colLen !== 0){
+        currentString+=string+","
+        count+=1
+        if(count>=rowLen*colLen){
+            newStrings.push(currentString)
+            currentString=""
+            rowLen=0
+            colLen=0
+            count=0
+          console.log("newStrings",newStrings)
+        }
+      }
+      else if (string[0] === "[") {
         if (currentString !== "") {
           newStrings.push(currentString);
         }
@@ -115,7 +140,10 @@ function NotesPage({route}) {
           //   console.log(stringsToRender)
 
             stringsToRender.map((string, index) => {
-              if (string[0] === "[") {
+              if(string.length>=2 && string[0]=== "T" && string[1] === "*"){
+                return <TableComponent vals={string.split(",")} />
+              }
+              else if (string[0] === "[") {
                 return <SpecialInputComponent key={index} text={string} />;
               } else {
                 return (

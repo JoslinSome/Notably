@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, TouchableOpacity, Modal, View, TextInput, Text } from 'react-native';
+import {FlatList, TouchableOpacity, Modal, View, TextInput, Text, Image} from 'react-native';
 import { Card, Title, FAB, Provider as PaperProvider, DefaultTheme, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import {api} from "../config/Api";
-
+import notebookImage from "../assets/notebook.png"
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -63,13 +63,9 @@ function AllNoteBooksPage({ route }) {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}
-    >
-      <Card style={{ margin: 10 }}>
-        <Card.Content>
-          <Title>{item.title}</Title>
-        </Card.Content>
-      </Card>
+      onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}>
+        <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ notebookImage}/>
+        <Text>{item.title}</Text>
     </TouchableOpacity>
   );
 
