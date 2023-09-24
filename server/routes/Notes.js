@@ -7,6 +7,8 @@ import jpeg from "jpeg-js";
 import multer from 'multer';
 import { notebookModel } from "../models/Notebooks.js";
 import vision from '@google-cloud/vision';
+import OpenAI from 'openai';
+import dotenv from "dotenv"
 
 const router = express.Router();
 
@@ -89,6 +91,40 @@ router.post("/read-note", upload.single('image'), async (req, res) => {
   const text = await quickstart(req.file.path)
   res.send(text);
 });
+
+async function APIcall (text) {
+  dotenv.config();
+  const openai = new OpenAI({
+    apiKey: process.env.GPT_KEY // This is also the default, can be omitted
+  });
+  const chatHistory = [];
+  try {
+    const chatCompletion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{"role": "user", "content": "I have an exam coming up, can you generate flashcards for me to study with considering that i have the following notes of course work'"+text+"'.Generate only 3 flashcards as quickly as possible, Please return the result to me as an array of json objects. each object should contains a field called 'question' with the question to be asked and a field called 'answer' being the response to the question. Do not return any text aside from the array of json response, I only want the resulting array. Under no circumstances will you give me starting words such as 'Here is the array of JSON objects as requested:' in the response content."}]
+    });
+
+    console.log(chatCompletion.choices[0].message);
+    return chatCompletion.choices[0].message;
+
+  } catch (err) {
+    if (err.response) {
+      console.log(err.response.status);
+      console.log(err.response.data);
+    } else {
+      console.log(err.message);
+    }
+  }
+};
+
+router.get("/get-flash-cards", async (req, res) => {
+  const { text } = req.query;
+  console.log("In here",text)
+  const flashCards = await APIcall(text);
+  res.send(flashCards)
+})
+
+
 async function quickstart(path) {
   // Imports the Google Cloud client libraries
 
