@@ -13,6 +13,7 @@ import { api } from "../config/Api";
 import SpecialInputComponent from "../components/SpecialInputComponent";
 
 import noteImage from "../assets/note.png";
+import {width, height} from "../config/DeviceDemensions";
 
 const theme = {
   ...DefaultTheme,

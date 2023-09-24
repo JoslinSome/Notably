@@ -14,6 +14,7 @@ const theme = {
   },
 };
 
+
 function AllNoteBooksPage({ route }) {
   console.log("AllNoteBooksPage");
   console.log(route);
