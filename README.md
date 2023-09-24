@@ -19,3 +19,10 @@ Our motivation behind developing Notably was to simplify note management and imp
 ### Intelligent Study Assistance
 - The application's review section utilizes Chat GPT to generate personalized flashcard quizzes based on your notebook content.
 - Enhance your study experience with tailored quizzes that adapt to your notes.
+
+## How It's Built
+Notably is built using the MERN stack:
+- React for the web client. 
+- React Native for the mobile client.
+- Express and Node.js for the backend.
+- MongoDB for data storage.
