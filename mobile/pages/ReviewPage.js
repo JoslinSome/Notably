@@ -4,7 +4,7 @@ import {Button, FAB, Provider as PaperProvider} from "react-native-paper";
 import {useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import {api} from "../config/Api";
-import notebookImage from "../assets/notebook.png";
+import flashcardImage from "../assets/flashcard.png";
 function ReviewPage({props,route}) {
     const { user } = route.params;
     console.log("User: ", user);
@@ -32,7 +32,7 @@ function ReviewPage({props,route}) {
     const renderItem = ({ item }) => (
         <TouchableOpacity
             onPress={() => navigation.navigate("Quiz", {user, notebook: item})}>
-            <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ notebookImage}/>
+            <Image style={{width: 110, height: 110, opacity: 0.8, margin: 25, borderRadius:10}} source={ flashcardImage}/>
             <Text>{item.title}</Text>
         </TouchableOpacity>
     );
