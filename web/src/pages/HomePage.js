@@ -11,6 +11,7 @@ function HomePage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
+    const [userNameLogin, setUserNameLogin] = useState("");
     const [password, setPassword] = useState("");
     const [rePassword, setRePassword] = useState("");
     const [error, setError] = useState("");
@@ -48,22 +49,22 @@ function HomePage() {
     async function signIn() {
         try {
             const response = await axios.post(`${api}/user/login`, {
-                username: userName,
+                username: userNameLogin,
                 password
-            });
-
-            if (response.data.hasOwnProperty("message")) {
-                setError(response.data.message);
-            } else {
-                setCookie("access-token", response.data.token);
-                setCookie("username", response.data.username);
-                navigate('/user');  // Navigate to user page after successful login
-            }
+            }).then((response) => {
+                if (response.data.hasOwnProperty("message")) {
+                    setError(response.data.message);
+                } else {
+                    setCookie("access-token", response.data.token);
+                    setCookie("username", response.data.username);
+                    setMessage("Sign In Successful!")
+                    navigate('/user', {state: {user: response.data.user}});  // Navigate to user page after successful login
+                }
+            })
         } catch (error) {
             console.log("Error", error);
         }
     }
-
         return (
         <div className="app">
             <div className="menu-bar">
@@ -76,8 +77,9 @@ function HomePage() {
                 <div className="right-content">
                     {showLoginForm ? (
                         <>
-                            <input type="text" placeholder="User ID" className="login-input" />
-                            <input type="password" placeholder="Password" className="login-input" />
+                            <input type="text" placeholder="User ID" className="login-input" onChange={e=>setUserNameLogin(e.target.value)} />
+                            <input type="password" placeholder="Password" className="login-input" onChange={e=>setPassword(e.target.value)} />
+                            {error && <div className="error-message">{error}</div>}
                             <button className="login-submit-button" onClick={signIn}>Sign In</button>
                         </>
                     ) : showSignUpForm ? (

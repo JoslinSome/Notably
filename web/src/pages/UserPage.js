@@ -3,6 +3,7 @@ import '../App.css';
 import axios from 'axios';
 import {api} from "../config/Api";
 import {useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 function UserPage() {
     const [showCreationForm, setShowCreationForm] = useState(false);
@@ -11,13 +12,23 @@ function UserPage() {
     const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [notebooks, setNotebooks] = useState([]);  // State to store fetched notebooks
+    const location = useLocation();
+    const [error, setError] = useState("");
+    const [noteBooks, setNoteBooks] = useState([]);
+    const user = location.state.user
 
     useEffect(() => {
         // Fetch user's notebooks from the backend
         const fetchNotebooks = async () => {
             try {
-                const response = await axios.get(api + `/notebooks`);  // Replace with the actual endpoint
-                setNotebooks(response.data);
+                const response = await axios.get(api + `/notebook/get-by-user/${user._id}`
+                ).then((response) => {
+                    if (response.data.hasOwnProperty("message")) {
+                        setError(response.data.message);
+                    } else {
+                        setNotebooks(response.data);
+                        console.log("Notebook data: ", response.data)                    }
+                })  // Replace with the actual endpoint
             } catch (error) {
                 console.log("Error fetching notebooks", error);
             }
@@ -39,7 +50,7 @@ function UserPage() {
             console.log("Error", error);
         }
         setShowCreationForm(false);
-        navigate('/user');
+        navigate('/user', {state: {user: user}});
     };
 
     return (
@@ -54,7 +65,6 @@ function UserPage() {
                 {/* Left 2/3 */}
                 <div className="left-content">
                     <h1 className="my-notebooks-title">My Notebooks</h1>
-
                     {/* Display Notebooks */}
                     <div className="notebooks-grid">
                         {notebooks.map(notebook => (
@@ -68,6 +78,7 @@ function UserPage() {
 
                 {/* Right 1/3 */}
                 <div className="right-content">
+                    {message && <div className="message">{message}</div>}
                     {!showCreationForm ? (
                         <button className="create-notebook-button" onClick={() => setShowCreationForm(true)}>Create Notebook</button>
                     ) : (
