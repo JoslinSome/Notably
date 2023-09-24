@@ -3,6 +3,7 @@ import '../App.css';
 import axios from 'axios';
 import { api } from "../config/Api";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function NotebookPage() {
     const [showAddNoteForm, setShowAddNoteForm] = useState(false);
@@ -10,6 +11,8 @@ function NotebookPage() {
     const [noteTitle, setNoteTitle] = useState("");
     const [notes, setNotes] = useState([]);
     const navigate = useNavigate();
+    const location = useLocation()
+    const [error, setError] = useState("");
     const notebookId = location.state.notebookId
 
     useEffect(() => {
@@ -44,10 +47,10 @@ function NotebookPage() {
 
     async function handleNoteClick(noteId) {
         try {
-            const response = await axios.post(api + `/notes/get-by-id`, {
-                id: notebookId,
+            const response = await axios.get(api + `/notes/get-by-id`, {
+                id: noteId,
             }).then((response) => {
-                navigate('/user', {state: {notebookId: notebookId}});
+                navigate('/notes', {state: {noteId: noteId}});
             })
         } catch (error) {
             console.log("Error", error);

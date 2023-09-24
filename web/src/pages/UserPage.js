@@ -53,10 +53,10 @@ function UserPage() {
 
     async function handleNotebookClick(notebookId) {
         try {
-            const response = await axios.post(api + `/notebook/get-by-id`, {
+            const response = await axios.get(api + `/notebook/get-by-id`, {
                 id: notebookId,
             }).then((response) => {
-                navigate('/user', {state: {notebookId: notebookId}});
+                navigate('/notebook', {state: {notebookId: notebookId}});
             })
         } catch (error) {
             console.log("Error", error);

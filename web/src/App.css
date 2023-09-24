@@ -323,7 +323,70 @@
   outline: none;
 }
 
-/* Right content - Note and Notebook actions */
+/* Add Note Button */
+.add-note-button {
+  font-size: var(--button-font-size);
+  width: var(--button-width);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  background-color: var(--button-login-bg);
+  color: var(--button-login-color);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.add-note-button:hover {
+  background-color: var(--button-login-hover-bg);
+  color: var(--button-login-hover-color);
+}
+
+/* Edit Notebook Button */
+.edit-notebook-button {
+  font-size: var(--button-font-size);
+  width: var(--button-width);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  background-color: var(--button-get-started-bg);
+  color: var(--button-get-started-color);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-notebook-button:hover {
+  background-color: var(--button-get-started-hover-bg);
+  color: var(--button-get-started-hover-color);
+}
+
+/* Delete Notebook Button */
+.delete-notebook-button {
+  font-size: var(--button-font-size);
+  width: var(--button-width);
+  padding: var(--button-padding);
+  border-radius: var(--button-radius);
+  background-color: #d9534f; /* Red */
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.delete-notebook-button:hover {
+  background-color: #c9302c; /* Darker Red */
+}
+
+/* Text Inputs */
+.note-title-input, .new-notebook-title-input, .new-notebook-description-input {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--button-radius);
+  width: 80%; /* Adjust as necessary */
+  margin: 10px 0;
+}
+
+/* File Upload/Drag-and-Drop Area */
 .drag-drop-area {
   width: 80%; /* Adjust width */
   height: 100px; /* Adjust height */
@@ -332,45 +395,9 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 15px;
-}
-
-.upload-file-button,
-.add-note-button,
-.edit-notebook-button,
-.delete-notebook-button {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
   cursor: pointer;
-  border: none;
-  transition: background-color 0.3s;
 }
 
-.upload-file-button {
-  background-color: #4CAF50; /* Green */
-  color: white;
-}
 
-.add-note-button {
-  background-color: #2196F3; /* Blue */
-  color: white;
-}
 
-.edit-notebook-button {
-  background-color: #f0ad4e; /* Yellow */
-  color: white;
-}
-
-.delete-notebook-button {
-  background-color: #d9534f; /* Red */
-  color: white;
-}
-
-/* Hover effects for buttons */
-.upload-file-button:hover,
-.add-note-button:hover,
-.edit-notebook-button:hover,
-.delete-notebook-button:hover {
-  opacity: 0.9;
-}
 
