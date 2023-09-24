@@ -5,36 +5,33 @@ import React, { useRef, useState, useEffect } from "react";
 import DialogComponent from "../components/DialogComponent";
 import SpecialInputComponent from "../components/SpecialInputComponent";
 import ImagePickerComponent from "../components/ImagePickerComponent";
+import axios from "axios";
+import {api} from "../config/Api";
 
 function NotesPage({route}) {
   const { note } = route.params;
   console.log("NOOOOTE",note)
-  const [text, setText] = useState("");
   const [stringsToRender, setStringsToRender] = useState([]);
-
+  const [title, setTitle] = useState("");
   const [imageSet, setImageSet] = useState(false);
   const [photo, setPhoto] = useState(null);
+  // Save all notes in string to render to database
+  async function save(){
+    if (stringsToRender.length > 0) {
+      await axios.put("http://" + api + `/notes/update`, {
+        params: {
+          content: stringsToRender,
+          id: note._id,
+          title
+        }
+      }).then(r => {
+        console.log("Successfully joined")
+      }).catch(e => console.log(e))
+    }
+  }
 
-  // useEffect(() => {
-  //   if (imageSet && photo) {
-  //     // Make a call to your Node.js server with the selected photo
-  //     fetch("http://localhost:3001/parse_image_to_note", {
-  //       method: "POST",
-  //       body: JSON.stringify({ photo }),
-  //       headers: { "Content-Type": "application/json" },
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         // Handle the server response
-  //         console.log(data);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error:", error);
-  //       });
-  //   }
-  // }, [imageSet, photo]);
-
-  function parseNote() {
+  function parseNote(text) {
+    console.log("HERE PARSING")
     let strings = text.split("\n");
     let currentString = "";
     let newStrings = [];
@@ -90,28 +87,29 @@ function NotesPage({route}) {
   }
   return (
     <View style={styles.container}>
+      <ImagePickerComponent parse={parseNote} setImageSet={setImageSet} setPhoto={setPhoto} />
+
       <View style={styles.note}>
-        {/* <DialogComponent text={text} setText={setText} parse={parseNote} /> */}
-        <ImagePickerComponent setImageSet={setImageSet} setPhoto={setPhoto} />
-        {/*// <TextInput style={styles.mainNote} multiline={true} numberOfLines={4} fontSize={16}>*/}
+        {/* <DialogComponent text={text} setText={setText} parse={parseNote} /> */}{/*// <TextInput style={styles.mainNote} multiline={true} numberOfLines={4} fontSize={16}>*/}
         {
           //   console.log(stringsToRender)
-          stringsToRender.map((string, index) => {
-            if (string[0] === "[") {
-              return <SpecialInputComponent key={index} text={string} />;
-            } else {
-              return (
-                <TextInput
-                  key={index}
-                  defaultValue={string}
-                  multiline={true}
-                  numberOfLines={string.length <= 25 ? 2 : string.length / 25}
-                  fontSize={16}
-                />
-              );
-              // return <Text>{string}</Text>
-            }
-          })
+
+            stringsToRender.map((string, index) => {
+              if (string[0] === "[") {
+                return <SpecialInputComponent key={index} text={string} />;
+              } else {
+                return (
+                  <TextInput
+                    key={index}
+                    defaultValue={string}
+                    multiline={true}
+                    numberOfLines={string.length <= 25 ? 2 : string.length / 25}
+                    fontSize={16}
+                  />
+                );
+                // return <Text>{string}</Text>
+              }
+            })
         }
         {/*</TextInput>*/}
       </View>
@@ -123,16 +121,16 @@ const styles = StyleSheet.create({
   container: {},
 
   note: {
-    marginTop: "10%",
-    marginLeft: "5%",
-    width: "87.5%",
+    marginTop: "7%",
+    marginLeft: "2.5%",
+    width: "95%",
     height: "100%",
   },
   white: {
     color: "#ffffff",
   },
   mainNote: {
-    marginTop: 30,
+    marginTop: 10,
   },
   title: {
     underline: { textDecorationLine: "underline" },

@@ -11,7 +11,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import * as Permissions from "expo-permissions";
 import {
   Button,
   Provider as PaperProvider,
@@ -32,15 +31,13 @@ const theme = {
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function ImagePickerComponent({ setImageSet, setPhoto }) {
+export default function ImagePickerComponent({ setImageSet, setPhoto,parse }) {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const getCameraPermission = async () => {
-    const { status } = await Permissions.askAsync(
-      Permissions.CAMERA,
-      Permissions.CAMERA_ROLL,
-    );
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
     if (status !== "granted") {
       alert("Sorry, we need camera roll permissions to make this work!");
       return false;
@@ -106,7 +103,8 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
         },
       })
       .then((response) => {
-        console.log("Response: ", response);
+        console.log("DONE");
+        parse(response.data);
       })
       .catch((error) => {
         console.log("Error: ", error);
@@ -114,66 +112,77 @@ export default function ImagePickerComponent({ setImageSet, setPhoto }) {
 
     setModalVisible(false);
   };
+  if(modalVisible) {
+    return (
+        <PaperProvider theme={theme}>
+          <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
+              }}
+          >
+            <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={{position: "absolute", left: 10, top: 10}}
+            >
+              <Ionicons name="add-circle" size={32} color="black"/>
+            </TouchableOpacity>
 
-  return (
-    <PaperProvider theme={theme}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "white",
-        }}
-      >
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}
+            >
+              <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "white",
+                  }}
+              >
+                <TouchableOpacity
+                    onPress={() => setModalVisible(false)}
+                    style={{position: "absolute", right: 10, top: 50}}
+                >
+                  <Ionicons name="close-circle" size={32} color="black"/>
+                </TouchableOpacity>
+
+                <Button mode="contained" style={styles.button} onPress={takePhoto}>
+                  Take a photo
+                </Button>
+                <Button mode="contained" style={styles.button} onPress={pickImage}>
+                  Pick an image
+                </Button>
+                {image && <Image source={{uri: image}} style={styles.image}/>}
+                <Button
+                    mode="contained"
+                    style={styles.button}
+                    onPress={submitImage}
+                >
+                  Submit
+                </Button>
+              </View>
+            </Modal>
+          </View>
+        </PaperProvider>
+    );
+  }
+  else{
+    return (
         <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={{ position: "absolute", left: 10, top: 10 }}
+            onPress={() => setModalVisible(true)}
+            style={{ position: "absolute", left: 10, top: 10 }}
         >
           <Ionicons name="add-circle" size={32} color="black" />
         </TouchableOpacity>
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "white",
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={{ position: "absolute", right: 10, top: 50 }}
-            >
-              <Ionicons name="close-circle" size={32} color="black" />
-            </TouchableOpacity>
-
-            <Button mode="contained" style={styles.button} onPress={takePhoto}>
-              Take a photo
-            </Button>
-            <Button mode="contained" style={styles.button} onPress={pickImage}>
-              Pick an image
-            </Button>
-            {image && <Image source={{ uri: image }} style={styles.image} />}
-            <Button
-              mode="contained"
-              style={styles.button}
-              onPress={submitImage}
-            >
-              Submit
-            </Button>
-          </View>
-        </Modal>
-      </View>
-    </PaperProvider>
-  );
+    )
+  }
 }
 
 const styles = StyleSheet.create({
