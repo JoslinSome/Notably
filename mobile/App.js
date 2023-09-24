@@ -17,7 +17,6 @@ import AllNotesPage from "./pages/AllNotesPage";
 import Profile from "./pages/Profile";
 import NotesPage from "./pages/NotesPage";
 import AllNoteBooksPage from "./pages/AllNotebooksPage";
-import QuizPage from "./pages/QuizPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,22 +27,22 @@ function Home({ route, navigation }) {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Notes"
+        name="All Notebooks"
         component={NotesStackScreen}
         initialParams={{ user }}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name="Review"
-        component={ReviewStackScreen}
+        component={ReviewPage}
         initialParams={{ user }}
         options={{
-            headerShown: false,
-            tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" color={color} size={size} />
           ),
         }}
@@ -80,6 +79,7 @@ function NotesStackScreen({ route, navigation }) {
           headerTintColor: titleColor,
           headerTitleStyle: {
             fontWeight: "bold",
+            fontSize: 20,
           },
         }}
       />
@@ -103,7 +103,7 @@ function NotesStackScreen({ route, navigation }) {
         component={NotesPage}
         initialParams={{ user }}
         options={{
-            headerShown: false,
+          headerTitle: "Notes",
           headerStyle: {
             backgroundColor: headerColor,
           },
@@ -117,32 +117,6 @@ function NotesStackScreen({ route, navigation }) {
   );
 }
 
-const ReviewStack = createStackNavigator();
-
-function ReviewStackScreen({ route, navigation }) {
-    const { user } = route.params;
-    return (
-        <ReviewStack.Navigator>
-            <ReviewStack.Screen
-                name="ChooseReview"
-                component={ReviewPage}
-                initialParams={{ user }}
-                options={{
-                  headerShown: false
-                }}
-            />
-            <ReviewStack.Screen
-                name="Quiz"
-                component={QuizPage}
-                initialParams={{ user }}
-                options={{
-                   headerShown: false,
-                }}
-            />
-
-        </ReviewStack.Navigator>
-    );
-}
 export default function App() {
   const [cookies, setCookies] = useCookies(["access-token", "username"]);
   const [refresh, setRefresh] = useState(true);
