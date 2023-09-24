@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import {FlatList, Image, TextInput, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, Image, TextInput, Text, TouchableOpacity, View, StyleSheet} from "react-native";
 
 import {
   Card,
@@ -13,6 +13,7 @@ import { api } from "../config/Api";
 import SpecialInputComponent from "../components/SpecialInputComponent";
 
 import noteImage from "../assets/note.png";
+import notebookImage from "../assets/notebook.png";
 
 const theme = {
   ...DefaultTheme,
@@ -71,15 +72,12 @@ function AllNotesPage({route}) {
   const renderItem = ({ item }) => (
 
       <TouchableOpacity
+          style={styles.notes_card}
           onPress={() => navigation.navigate("NotesPage", { note: item })}
-          style={{ alignItems: 'center', margin: 15 }} // Align children centrally and apply margin
       >
-          <View>
-              <Image
-                  style={{ width: 100, height: 100, opacity: 0.8, borderRadius: 10 }}
-                  source={noteImage}
-              />
-              <Text style={{ textAlign: 'center', width: 100 }}>{String(item.title)}</Text>
+          <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ noteImage}/>
+          <View style={styles.notes_card_content}>
+              <Text style={styles.notes_card_title}>{item.title}</Text>
           </View>
       </TouchableOpacity>
 
@@ -117,5 +115,55 @@ function AllNotesPage({route}) {
     </PaperProvider>
   );
 }
+
+const styles = StyleSheet.create({
+    notes_title: {
+        fontSize: 60,
+        fontWeight: "bold",
+        color: "#ffffff",
+        marginLeft: 100,
+    },
+    notes_description: {
+        fontSize: 15,
+        textAlign: "center",
+        color: "#ffffff",
+    },
+    notes_card: {
+        margin: 20,
+        borderRadius: 10,
+        // Make the card look elevated and have a shadow
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        width: 170,
+        height: 170,
+        // Make background color white
+        backgroundColor: "#ffffff",
+
+    },
+    notes_card_title: {
+        color: "black",
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    notes_card_description: {
+        color: "#ffffff",
+        fontSize: 15,
+    },
+    notes_card_date: {
+        color: "#ffffff",
+        fontSize: 10,
+    },
+    notes_card_icon: {
+        color: "#ffffff",
+    },
+    notes_card_content: {
+        justifyContent: "center",
+        margin: 5,
+    },
+});
+
 
 export default AllNotesPage;
