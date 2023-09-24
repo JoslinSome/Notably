@@ -229,3 +229,20 @@
   color: var(--button-get-started-hover-color);
   transform: scale(1.05);
 }
+
+.notebooks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust as per your requirements */
+  gap: 20px; /* Adjust the space between each notebook */
+}
+
+.notebook-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notebook-icon {
+  width: 150px; /* Adjust the icon size */
+  height: auto;
+}

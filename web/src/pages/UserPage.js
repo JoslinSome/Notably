@@ -41,7 +41,8 @@ function UserPage() {
         try {
             const response = await axios.post(api + `/notebook/create`, {
                 title: title,
-                description: description
+                description: description,
+                user: user
             });
             setMessage("Notebook Created!")
             setShowCreationForm(false);
@@ -69,7 +70,7 @@ function UserPage() {
                     <div className="notebooks-grid">
                         {notebooks.map(notebook => (
                             <div key={notebook.id} className="notebook-card">
-                                <img src={notebook.imageURL} alt={notebook.title} />
+                                <img src={require("../media/notebook-icon.png")} alt="Notebook Icon" className="notebook-icon" />
                                 <h3>{notebook.title}</h3>
                             </div>
                         ))}
