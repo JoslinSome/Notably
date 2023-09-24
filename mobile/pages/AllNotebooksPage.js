@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {FlatList, TouchableOpacity, Modal, View, TextInput, Text, Image} from 'react-native';
+import {FlatList, TouchableOpacity, Modal, View, TextInput, Text, Image, StyleSheet} from 'react-native';
 import { Card, Title, FAB, Provider as PaperProvider, DefaultTheme, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -65,7 +65,7 @@ function AllNoteBooksPage({ route }) {
     <TouchableOpacity
       onPress={() => navigation.navigate("AllNotes", {user, notebook: item})}>
         <Image style={{width: 150, height: 140, opacity: 0.8, margin: 15, borderRadius:10}} source={ notebookImage}/>
-        <Text>{item.title}</Text>
+        <Text stye={styles.notes_title}>{item.title}</Text>
     </TouchableOpacity>
   );
 
@@ -120,5 +120,42 @@ function AllNoteBooksPage({ route }) {
     </PaperProvider>
   );
 }
+const styles = StyleSheet.create({
+    notes_title: {
+        fontSize: 30,
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#ffffff",
+    },
+    notes_description: {
+        fontSize: 15,
+        textAlign: "center",
+        color: "#ffffff",
+    },
+    notes_card: {
+        backgroundColor: "#575252",
+        margin: 10,
+        borderRadius: 10,
+    },
+    notes_card_title: {
+        color: "#ffffff",
+        fontSize: 20,
+        fontWeight: "bold",
+    },
+    notes_card_description: {
+        color: "#ffffff",
+        fontSize: 15,
+    },
+    notes_card_date: {
+        color: "#ffffff",
+        fontSize: 10,
+    },
+    notes_card_icon: {
+        color: "#ffffff",
+    },
+    notes_card_content: {
+        padding: 10,
+    },
+});
 
 export default AllNoteBooksPage;
