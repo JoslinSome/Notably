@@ -246,3 +246,131 @@
   width: 150px; /* Adjust the icon size */
   height: auto;
 }
+
+.notebook-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+}
+
+.notebook-button:hover {
+  transform: scale(1.1);
+}
+
+.notebook-button:focus {
+  outline: none;
+}
+
+/* Left content - Notebook details */
+.notebook-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.notebook-description {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.my-notes-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Grid for notes */
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust based on your design */
+  gap: 20px; /* Space between notes */
+}
+
+.note-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.note-icon {
+  width: 50px; /* Adjust the icon size */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.note-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  text-align: center;
+}
+
+.note-button:hover {
+  transform: scale(1.1);
+}
+
+.note-button:focus {
+  outline: none;
+}
+
+/* Right content - Note and Notebook actions */
+.drag-drop-area {
+  width: 80%; /* Adjust width */
+  height: 100px; /* Adjust height */
+  border: 2px dashed #cccccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.upload-file-button,
+.add-note-button,
+.edit-notebook-button,
+.delete-notebook-button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.upload-file-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.add-note-button {
+  background-color: #2196F3; /* Blue */
+  color: white;
+}
+
+.edit-notebook-button {
+  background-color: #f0ad4e; /* Yellow */
+  color: white;
+}
+
+.delete-notebook-button {
+  background-color: #d9534f; /* Red */
+  color: white;
+}
+
+/* Hover effects for buttons */
+.upload-file-button:hover,
+.add-note-button:hover,
+.edit-notebook-button:hover,
+.delete-notebook-button:hover {
+  opacity: 0.9;
+}
+

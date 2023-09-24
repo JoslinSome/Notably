@@ -33,7 +33,6 @@ function UserPage() {
                 console.log("Error fetching notebooks", error);
             }
         };
-
         fetchNotebooks();
     }, []);
 
@@ -46,12 +45,22 @@ function UserPage() {
             });
             setMessage("Notebook Created!")
             setShowCreationForm(false);
-            navigate('/user');
+            navigate('/user', {state: {user: user}});
         } catch (error) {
             console.log("Error", error);
         }
-        setShowCreationForm(false);
-        navigate('/user', {state: {user: user}});
+    };
+
+    async function handleNotebookClick(notebookId) {
+        try {
+            const response = await axios.post(api + `/notebook/get-by-id`, {
+                id: notebookId,
+            }).then((response) => {
+                navigate('/user', {state: {notebookId: notebookId}});
+            })
+        } catch (error) {
+            console.log("Error", error);
+        }
     };
 
     return (
@@ -70,8 +79,10 @@ function UserPage() {
                     <div className="notebooks-grid">
                         {notebooks.map(notebook => (
                             <div key={notebook.id} className="notebook-card">
-                                <img src={require("../media/notebook-icon.png")} alt="Notebook Icon" className="notebook-icon" />
-                                <h3>{notebook.title}</h3>
+                                <button className="notebook-button" onClick={() => handleNotebookClick(notebook.id)}>
+                                    <img src={require("../media/notebook-icon.png")} alt="Notebook Icon" className="notebook-icon" />
+                                    <h3>{notebook.title}</h3>
+                                </button>
                             </div>
                         ))}
                     </div>
